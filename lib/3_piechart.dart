@@ -47,11 +47,11 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
     final arguments = widget.arguments ?? {};
     pieIndex = UserSimplePreferences.getPieIndex();
 
-    if (pieIndex == 2) {
+    if (pieIndex == 1) {
       progressMsg = "Your cell has successfully grown!";
-    } else if (pieIndex == 3) {
+    } else if (pieIndex == 2) {
       progressMsg = "DNA Replication - Complete!";
-    } else if (pieIndex == 4) {
+    } else if (pieIndex == 3) {
       progressMsg = "Your cell has grown further, and ready to divide.";
     }
 
@@ -106,7 +106,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                       flex: 2,
                       child: SizedBox(
                         width: 600,
-                        height: 500,
+                        height: 470,
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
                           child: ClipRRect(
@@ -200,7 +200,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                             child: Text(
                               progressMsg,
                               style:
-                                  TextStyle(fontSize: 18, color: Colors.black),
+                                  TextStyle(fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.8), fontWeight: FontWeight.w400),
                               textAlign: TextAlign.center,
                             ),
                           ),

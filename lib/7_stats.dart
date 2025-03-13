@@ -24,6 +24,7 @@ class _MyStatsPageState extends State<MyStatsPage> {
       appBar: AppBar(
         title: Text('Game Statistics'),
       ),
+      backgroundColor: Colors.yellowAccent,
       body: Column(
         children: [
           Container(
@@ -33,7 +34,7 @@ class _MyStatsPageState extends State<MyStatsPage> {
               color: Colors.green,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text('OVERALL SCORE: ${UserSimplePreferences.getTotalScore()}', style: TextStyle(fontSize: 18, color: Colors.black)),
+            child: Text('OVERALL SCORE: \n${UserSimplePreferences.getTotalScore()}', style: TextStyle(fontSize: 18, color: Colors.black), textAlign: TextAlign.center,),
           ),
           FutureBuilder(
             future: _prefsInit,

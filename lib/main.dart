@@ -89,7 +89,17 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: HomeScreen(),
+      home: PopScope(
+        canPop: false, // Prevent default back behavior
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            return; // If the system already handled the pop, do nothing
+          }
+          // Navigate to the homescreen and remove all other routes
+          Navigator.pushNamedAndRemoveUntil(context, '/homescreen', (route) => false);
+        },
+        child: HomeScreen(), // Your homescreen widget
+      ),
       routes: {
         '/homescreen': (context) => HomeScreen(),
         '/gamescreen' : (context) => GameScreen(),

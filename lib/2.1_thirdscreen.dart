@@ -180,7 +180,7 @@ class _ThirdScreenState extends State<ThirdScreen>
                       style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
-                Container(margin: EdgeInsets.all(16), child: Text(myTrivia.triviaStatements[random.nextInt(9)], textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: Colors.black), softWrap: true, maxLines: 4,)) // Modify number of trivia statements
+                Container(margin: EdgeInsets.all(16), child: Text('Did you know? \n${myTrivia.triviaStatements[random.nextInt(9)]}', textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: Color.fromRGBO(0, 0, 0, 0.8), fontWeight: FontWeight.w400), softWrap: true, maxLines: 5,)) // Modify number of trivia statements
               ],
             ),
           ),
