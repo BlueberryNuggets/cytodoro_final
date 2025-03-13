@@ -27,7 +27,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
   int mScore = 0;
   int totalCytodoroSessions = 0;
 
-  final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer(); 
+  final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer();
 
   void updateScalingStage(BuildContext context, int stage) {
     Provider.of<PieChartState>(context, listen: false)
@@ -36,9 +36,9 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
 
   void _playButtonClickSound() {
     _audioPlayer.open(
-      Audio("assets/tap.mp3"), 
-      autoStart: true, 
-      showNotification: false, 
+      Audio("assets/tap.mp3"),
+      autoStart: true,
+      showNotification: false,
     );
   }
 
@@ -58,12 +58,6 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        // leading: IconButton(
-        //   onPressed: () {
-        //     Navigator.pushNamed(context, '/thirdscreen');
-        //   },
-        //   icon: Icon(Icons.arrow_back_ios),
-        // ),
         backgroundColor: Color(0xffffa32c),
         title: Text('The Cell Life Cycle'),
       ),
@@ -76,8 +70,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
             height: double.infinity,
           ),
           Container(
-            color: Colors.yellow
-                .withOpacity(0.5), // Optional overlay for better contrast
+            color: Colors.yellow.withOpacity(0.5),
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(40),
@@ -118,39 +111,31 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                                 child: MyPieChart(
                                   onSegmentClicked: (segment) async {
                                     int currentStage =
-                                        Provider.of<PieChartState>(context,
-                                                listen: false)
-                                            .scalingStage;
+                                        Provider.of<PieChartState>(context, listen: false).scalingStage;
                                     if (segment == currentStage + 1) {
                                       updateScalingStage(context, segment);
                                       switch (segment) {
                                         case 1:
                                           UserSimplePreferences.setPieIndex(1);
                                           _playButtonClickSound();
-                                          Navigator.pushNamed(
-                                              context, '/pomodoro_timer');
+                                          Navigator.pushNamed(context, '/pomodoro_timer');
                                           cellSize = 150;
                                           break;
                                         case 2:
                                           UserSimplePreferences.setPieIndex(2);
                                           _playButtonClickSound();
-                                          Navigator.pushNamed(
-                                              context, '/dna_loadingscreen');
-                                          g1Score = UserSimplePreferences
-                                              .getPomodoroScore1();
+                                          Navigator.pushNamed(context, '/dna_loadingscreen');
+                                          g1Score = UserSimplePreferences.getPomodoroScore1();
                                           break;
                                         case 3:
                                           UserSimplePreferences.setPieIndex(3);
                                           _playButtonClickSound();
-                                          Navigator.pushNamed(
-                                              context, '/pomodoro_timer');
+                                          Navigator.pushNamed(context, '/pomodoro_timer');
                                           cellSize = 200;
                                           break;
                                         case 4:
                                           _playButtonClickSound();
-                                          final result =
-                                              await Navigator.pushNamed(context,
-                                                  '/mitosis_quizscreen');
+                                          final result = await Navigator.pushNamed(context, '/mitosis_quizscreen');
 
                                           if (result != null &&
                                               result is Map<String, dynamic> &&
@@ -173,39 +158,32 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
 
                     cellDivideButtonShow
                         ? ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 40, vertical: 15),
-                            ),
-                            onPressed: () {
-                              _playButtonClickSound();
-                              Provider.of<PieChartState>(context, listen: false)
-                                  .reset();
-                              Navigator.pushNamed(context, '/thirdscreen');
-                              totalCytodoroSessions = totalCytodoroSessions + 1;
-                              UserSimplePreferences.setCytodoroSessions(
-                                  totalCytodoroSessions);
-                            },
-                            child: Text('Divide your cell!', style: TextStyle(fontSize: 18, color: Colors.white)),
-                          )
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      ),
+                      onPressed: () {
+                        _playButtonClickSound();
+                        Provider.of<PieChartState>(context, listen: false).reset();
+                        Navigator.pushNamed(context, '/thirdscreen');
+                        totalCytodoroSessions = totalCytodoroSessions + 1;
+                        UserSimplePreferences.setCytodoroSessions(totalCytodoroSessions);
+                      },
+                      child: Text('Go back to cell page', style: TextStyle(fontSize: 18, color: Colors.white)),
+                    )
                         : Container(
-                            margin: EdgeInsets.all(8),
-                            constraints: BoxConstraints(
-                                minHeight: 100), // Ensure minimum height
+                      margin: EdgeInsets.all(8),
+                      constraints: BoxConstraints(minHeight: 100),
+                      child: Text(
+                        progressMsg,
+                        style: TextStyle(fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.8), fontWeight: FontWeight.w400),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
 
-                            child: Text(
-                              progressMsg,
-                              style:
-                                  TextStyle(fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.8), fontWeight: FontWeight.w400),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-
-                    //the CELL----------------------------------------
                     Expanded(
                       flex: 1,
                       child: Center(

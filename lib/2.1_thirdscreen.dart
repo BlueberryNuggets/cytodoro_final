@@ -14,10 +14,12 @@ class _ThirdScreenState extends State<ThirdScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<double> _scaleAnimation;
-  final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer(); 
-  int cellCount = UserSimplePreferences.getCellNumber(); 
-  bool isGameCompleted = false; 
-  Trivia myTrivia = Trivia(); 
+  final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer();
+  int cellCount = UserSimplePreferences.getCellNumber();
+  bool isGameCompleted = false;
+  bool hasDivideCellButtonBeenUsed = false; // Tracks if the "Divide Cell" button has been used
+  bool canShowDivideCellButton = false; // Tracks if the divide cell button can be shown
+  Trivia myTrivia = Trivia();
   Random random = Random();
 
   @override
@@ -45,6 +47,9 @@ class _ThirdScreenState extends State<ThirdScreen>
         });
       }
     });
+
+    // Check if the divide cell button can be shown based on user preferences
+    canShowDivideCellButton = UserSimplePreferences.getCanShowDivideCellButton();
   }
 
   @override
@@ -71,6 +76,29 @@ class _ThirdScreenState extends State<ThirdScreen>
     _playButtonClickSound(); // Play sound when button is clicked
     _animationController.reset();
     _animationController.forward(); // Trigger the multiplication animation
+  }
+
+  // Function to divide the cell and play animation
+  void divideCell() {
+    if (!hasDivideCellButtonBeenUsed) {
+      setState(() {
+        hasDivideCellButtonBeenUsed = true; // Mark the button as used
+        cellCount++; // Increment cell count directly
+        UserSimplePreferences.setCellNumber(cellCount); // Save the updated cell count
+      });
+      _playButtonClickSound(); // Play sound effect
+      _animationController.reset();
+      _animationController.forward(); // Start the scaling animation
+    }
+  }
+
+  // Function to start the game
+  void startGame() {
+    setState(() {
+      cellCount = 1; // Reset cell count to 1
+      UserSimplePreferences.setCellNumber(cellCount); // Save the updated cell count
+    });
+    _playButtonClickSound(); // Play sound effect
   }
 
   @override
@@ -114,10 +142,10 @@ class _ThirdScreenState extends State<ThirdScreen>
                   }),
                 ),
                 const SizedBox(height: 20),
-                if (cellCount > 1) ...[
+                if (cellCount == 0)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -125,11 +153,34 @@ class _ThirdScreenState extends State<ThirdScreen>
                           horizontal: 40, vertical: 15),
                     ),
                     onPressed: () {
-                      _playButtonClickSound(); // Play sound when button is clicked
-                      // Placeholder for Home functionality
-                      print("Home button pressed (not yet connected)");
+                      startGame();
                     },
-                    child: const Text('HOME', style: TextStyle(fontSize: 18, color: Colors.white)),
+                    child: const Text(
+                      'START',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                if (cellCount > 1) ...[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: hasDivideCellButtonBeenUsed
+                          ? Colors.grey // Disabled state
+                          : Colors.green, // Active state
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    ),
+                    onPressed: hasDivideCellButtonBeenUsed
+                        ? null
+                        : () {
+                      _playButtonClickSound(); // Play sound when button is clicked
+                      divideCell();
+                    },
+                    child: const Text(
+                      'DIVIDE CELL',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
@@ -156,27 +207,25 @@ class _ThirdScreenState extends State<ThirdScreen>
                     ),
                   ),
                 ],
-                if (cellCount == 1)
+                if (cellCount == 1 || canShowDivideCellButton)
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: hasDivideCellButtonBeenUsed
+                          ? Colors.grey // Disabled state
+                          : Colors.green, // Active state
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 40, vertical: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     ),
-                    onPressed: () {
+                    onPressed: hasDivideCellButtonBeenUsed
+                        ? null
+                        : () {
                       _playButtonClickSound(); // Play sound when button is clicked
-                      completeGameSession();
-                      Future.delayed(Duration(milliseconds: 800), () {
-                        // Delay for 2 seconds
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushNamed(context, '/pie_chartscreen');
-                      });
+                      divideCell();
                     },
                     child: const Text(
-                      'DIVIDE THE AMOEBA',
+                      'DIVIDE CELL',
                       style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
@@ -215,7 +264,6 @@ class _ThirdScreenState extends State<ThirdScreen>
     );
   }
 }
-
 
 // import 'package:connections/8_user_simple_preferences.dart';
 // import 'package:flutter/material.dart';
