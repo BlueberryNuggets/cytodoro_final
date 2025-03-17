@@ -13,8 +13,8 @@ class PomodoroTimer extends StatefulWidget {
 
 class _PomodoroTimerState extends State<PomodoroTimer>
     with SingleTickerProviderStateMixin {
-  static const int workTime = 10; // 10 seconds
-  static const int breakTime = 5; // 5 seconds
+  static const int workTime = 5; // 10 seconds
+  static const int breakTime = 0; // 0 seconds
   int remainingTime = workTime;
   bool isRunning = false;
   bool isWorkTime = true;
@@ -90,7 +90,7 @@ class _PomodoroTimerState extends State<PomodoroTimer>
 
           print(score);
 
-          Future.delayed(Duration(milliseconds: 800), () {
+          Future.delayed(Duration(milliseconds: 200), () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => NextPage(final_pomodoro_score: final_pomodoro_score)),
             ); //NEXT PAGE IS WITHIN THE SAME FILE!
           });
@@ -247,7 +247,7 @@ class NextPage extends StatelessWidget {
                   SizedBox(height: 20),
                   Center(
                     child: Text(
-                      'Time\'s Up! You gain $final_pomodoro_score points!',
+                      'Time\'s Up! \nYou gain $final_pomodoro_score points!',
                       style: TextStyle(fontSize: 28),
                       textAlign: TextAlign.center,
                     ),

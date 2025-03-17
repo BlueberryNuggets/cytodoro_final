@@ -31,10 +31,13 @@ class GameScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 36, color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 20),
-                  Text(
-                    'CYTODORO is a mobile app that combines the excitement of gamified learning with the productivity-boosting Pomodoro technique. Dive into the cell life cycle through interactive games while managing your study time effectively with customizable timers. Make learning biology fun and efficient!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24, color: Colors.black),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'CYTODORO is a mobile app that combines the excitement of gamified learning with the productivity-boosting Pomodoro technique. Dive into the cell life cycle through interactive games while managing your study time effectively with customizable timers. Make learning biology fun and efficient!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24, color: Colors.black),
+                    ),
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(

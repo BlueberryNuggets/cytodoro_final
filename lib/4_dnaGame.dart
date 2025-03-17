@@ -3,6 +3,7 @@ import 'package:connections/4_dnaGame_files/bases_buttons.dart';
 import 'package:connections/8_user_simple_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:connections/4_dnaGame_files/nitrogenous_base.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class MyDNAGameScreen extends StatefulWidget {
   const MyDNAGameScreen({super.key});
@@ -27,8 +28,9 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
   int overallScore = 0;
   int accuracyRate = 0;
   int baseLength = 30;
-  int rate_add = UserSimplePreferences.getdnaRateAdd();
-  int netAccuracyRate = UserSimplePreferences.getdnaAccuracy();
+  // int rate_add = UserSimplePreferences.getdnaRateAdd();
+  int netAccuracy = UserSimplePreferences.getdnaAccuracy();
+  final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer();
 
   final ScrollController _scrollController1 = ScrollController();
   int speedControl = 40;
@@ -40,8 +42,22 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
     super.initState();
   }
 
+  void disposeSound() {
+    _audioPlayer.dispose(); // Dispose of audio player
+  }
+
+  void playSound() {
+    _audioPlayer.open(
+      Audio('assets/dna_bgmusic.mp3'),
+      autoStart: true,
+      loopMode: LoopMode.single,
+    );
+    _audioPlayer.setVolume(0.2);
+  }
+  
   void startGame() {
     setState(() {
+      playSound();
       gameStarted = true;
       startButtonVisible = false;
       createDNAstrand();
@@ -235,7 +251,12 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
                               )
                             : const Center(
                                 child: Text(
-                                    "Are you ready to duplicate some DNA?", textAlign: TextAlign.center, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),),
+                                  "Are you ready to replicate some DNA? \n",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w400),
+                                ),
                               ),
                       ),
                       if (gameStarted) // Show black strips only when game is started
@@ -303,11 +324,17 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
           Center(
             child: startButtonVisible
                 ? ElevatedButton(
-                    onPressed: startGame,
-                    child: const Text(
-                      "S T A R T  G A M E",
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
                     ),
+                    onPressed: startGame,
+                    child: Text('START GAME',
+                        style: TextStyle(fontSize: 18, color: Colors.white)),
                   )
                 : Container(),
           ),
@@ -320,7 +347,8 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
                   margin: const EdgeInsets.only(top: 400),
                   child: Text(
                     feedbackText,
-                    style: const TextStyle(fontSize: 22, color:  Color(0xfffe8f00)),
+                    style:
+                        const TextStyle(fontSize: 22, color: Color(0xfffe8f00)),
                   ),
                 ),
               ),
@@ -338,7 +366,7 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
                         color: const Color.fromARGB(255, 231, 153, 52)
                             .withOpacity(0.5), // Shadow color with 50% opacity
                         spreadRadius: 5,
-                        blurRadius: 7,
+                        blurRadius: 5,
                         offset: Offset(0, 3), // changes position of shadow
                       ),
                     ],
@@ -355,26 +383,29 @@ class _MyDNAGameScreenState extends State<MyDNAGameScreen> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    elevation: 10, // Set the desired elevation value
+                    elevation: 10,
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
                   ),
                   onPressed: () {
+                    disposeSound();
                     Navigator.pushNamed(
                       context,
                       '/pie_chartscreen',
                     );
                     //FUNCTION THAT SETS THE ACCURACY RATE
-                    accuracyRate = ((score / baseLength) * 100).round();
-
-                    rate_add = rate_add + accuracyRate;
-                    UserSimplePreferences.setdnaRateAdd(rate_add);
-                    netAccuracyRate = (rate_add /
-                            (UserSimplePreferences.getTotalPomodoroSessions() +
-                                1))
-                        .round();
-                    UserSimplePreferences.setdnaAccuracy(netAccuracyRate);
+                    if (score == 3000) {
+                      netAccuracy = netAccuracy + 1;
+                      UserSimplePreferences.setdnaAccuracy(netAccuracy);
+                    }
                   },
-                  child: Text('Go back to your cell'),
-                )
+                  child: Text('Go back to your cell',
+                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                ),
               ],
             ),
         ],

@@ -31,9 +31,9 @@ const List<List<QuizQuestion>> questionSets = [
   ],
   [ // Set 5
     QuizQuestion('How many phases does Mitosis have?', ['It varies', '3', '2', '4'], '4'),
-    QuizQuestion('Why is Mitosis important ? ', ['It helps deliver the needed nutrients to the organ', 'It helps reduce the risks of mutation', 'It helps combine cells for improvement', 'It helps by replacing old and worn out cells with new ones'], 'It helps by replacing old and worn out cells with new ones'),
+    QuizQuestion('Why is Mitosis important? ', ['It helps deliver the needed nutrients to the organ', 'It helps reduce the risks of mutation', 'It helps combine cells for improvement', 'It helps by replacing old and worn out cells with new ones'], 'It helps by replacing old and worn out cells with new ones'),
     QuizQuestion('Eukaryotes can also be described as _________.', ['Cells that sexually reproduce', 'Cells that spontaneously generate', 'Cells use transformation and transduction to reproduce', 'Cells that cannot reproduce'], 'Cells that sexually reproduce'),
-    QuizQuestion('What do eukaryotes and prokaryotes have in common?', ['They both contain a genetic material', 'Both are a type of cell', 'Both can reproduce ', 'All of the choices '], 'All of the choices '),
+    QuizQuestion('What do eukaryotes and prokaryotes have in common?', ['They both contain a genetic material', 'Both are a type of cell', 'Both can reproduce ', 'All of the choices'], 'All of the choices'),
     QuizQuestion('What are prokaryotes? ', ['Cells that sexually reproduce', 'Cells that spontaneously generate', 'Cells that use transformation and transduction to reproduce', 'Cells that cannot reproduce'], 'Cells that use transformation and transduction to reproduce'),
   ],
   [ // Set 6

@@ -17,14 +17,18 @@ class UserSimplePreferences {
   static const _keyCytodoroSessions = 'cytodoro_sessions';
   static const _keytotalFocusTime = 'total_focustime';
   static const _keytotalPomodoroSessions = 'total_pomodorosessions';
-  static const _keydnaRateAdd = 'dnarate_add';
+  // static const _keydnaRateAdd = 'dnarate_add';
   static const _keyquizRateAdd = 'quizrate_add';
   static const _keyCanShowDivideCellButton = 'canShowDivideCellButton'; // Add this line
+  static const _keyCytodoroDone = 'cytodoro_done'; // Add this line
+  static const _keyHasDivideCellButtonBeenUsed= 'hasDivideCellButtonBeenUsed'; // Add this line
+  static const _keyPomodoro_now = 'pomodoro_now';
 
   // FUNCTION: Initializing the sharedpref instance
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
   }
+
 
   // POMODORO FUNCTIONS __________________________________________
   static Future<void> setPomodoroScore1(int pomodoroScore1) async {
@@ -112,13 +116,13 @@ class UserSimplePreferences {
     return _preferences.getInt(_keydnaAccuracy) ?? 0;
   }
 
-  static Future<void> setdnaRateAdd(int dnarateAdd) async {
-    await _preferences.setInt(_keydnaRateAdd, dnarateAdd);
-  }
+  // static Future<void> setdnaRateAdd(int dnarateAdd) async {
+  //   await _preferences.setInt(_keydnaRateAdd, dnarateAdd);
+  // }
 
-  static int getdnaRateAdd() {
-    return _preferences.getInt(_keydnaRateAdd) ?? 0;
-  }
+  // static int getdnaRateAdd() {
+  //   return _preferences.getInt(_keydnaRateAdd) ?? 0;
+  // }
 
   static Future<void> setCytodoroSessions(int cytodoroSessions) async {
     await _preferences.setInt(_keyCytodoroSessions, cytodoroSessions);
@@ -157,4 +161,36 @@ class UserSimplePreferences {
   static bool getCanShowDivideCellButton() {
     return _preferences.getBool(_keyCanShowDivideCellButton) ?? false;
   }
+
+
+   // Function to set and get the cytodoro_done flag
+
+  static Future<void> setCytodoroDone(bool cytodoro_done) async {
+    await _preferences.setBool(_keyCytodoroDone, cytodoro_done);
+  }
+
+  static bool getCytodoroDone() {
+    return _preferences.getBool(_keyCytodoroDone) ?? false;
+  }
+
+    // Function to set and get the can_Multiply flag
+
+  static Future<void> setHasDivideCellButtonBeenUsed(bool hasDivideCellButtonBeenUsed) async {
+    await _preferences.setBool(_keyHasDivideCellButtonBeenUsed, hasDivideCellButtonBeenUsed);
+  }
+
+  static bool getHasDivideCellButtonBeenUsed() {
+    return _preferences.getBool(_keyHasDivideCellButtonBeenUsed) ?? false;
+  }
+
+  // Function to set and get the pomodoro_now flag
+
+  static Future<void> setPomodoroNow(bool pomodoro_now) async {
+    await _preferences.setBool(_keyPomodoro_now, pomodoro_now);
+  }
+
+  static bool getPomodoroNow() {
+    return _preferences.getBool(_keyPomodoro_now) ?? true;
+  }
 }
+

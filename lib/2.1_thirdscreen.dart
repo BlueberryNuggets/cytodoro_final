@@ -17,10 +17,11 @@ class _ThirdScreenState extends State<ThirdScreen>
   final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer();
   int cellCount = UserSimplePreferences.getCellNumber();
   bool isGameCompleted = false;
-  bool hasDivideCellButtonBeenUsed = false; // Tracks if the "Divide Cell" button has been used
-  bool canShowDivideCellButton = false; // Tracks if the divide cell button can be shown
+  bool hasDivideCellButtonBeenUsed = UserSimplePreferences.getHasDivideCellButtonBeenUsed();
+  bool canShowDivideCellButton = false;
   Trivia myTrivia = Trivia();
   Random random = Random();
+  bool cytodoroDone = UserSimplePreferences.getCytodoroDone();
 
   @override
   void initState() {
@@ -37,75 +38,77 @@ class _ThirdScreenState extends State<ThirdScreen>
       ),
     );
 
-    // Add a listener to update the UI after animation ends
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed && isGameCompleted) {
         setState(() {
-          cellCount++; // Increment cell count
+          cellCount++;
           UserSimplePreferences.setCellNumber(cellCount);
-          isGameCompleted = false; // Reset game completion status
+          isGameCompleted = false;
         });
       }
     });
 
-    // Check if the divide cell button can be shown based on user preferences
-    canShowDivideCellButton = UserSimplePreferences.getCanShowDivideCellButton();
+    canShowDivideCellButton =
+        UserSimplePreferences.getCanShowDivideCellButton();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-    _audioPlayer.dispose(); // Dispose the audio player instance
+    _audioPlayer.dispose();
     super.dispose();
   }
 
-  // Function to play the button click sound
   void _playButtonClickSound() {
     _audioPlayer.open(
-      Audio("assets/tap.mp3"), // Specify the audio file
-      autoStart: true, // Start playing automatically
-      showNotification: false, // Don't show notification
+      Audio("assets/tap.mp3"),
+      autoStart: true,
+      showNotification: false,
     );
   }
 
-  // Simulating game session completion
   void completeGameSession() {
     setState(() {
-      isGameCompleted = true; // Mark the game session as completed
+      isGameCompleted = true;
     });
-    _playButtonClickSound(); // Play sound when button is clicked
+    _playButtonClickSound();
     _animationController.reset();
-    _animationController.forward(); // Trigger the multiplication animation
+    _animationController.forward();
   }
 
-  // Function to divide the cell and play animation
   void divideCell() {
-    if (!hasDivideCellButtonBeenUsed) {
-      setState(() {
-        hasDivideCellButtonBeenUsed = true; // Mark the button as used
-        cellCount++; // Increment cell count directly
-        UserSimplePreferences.setCellNumber(cellCount); // Save the updated cell count
-      });
-      _playButtonClickSound(); // Play sound effect
-      _animationController.reset();
-      _animationController.forward(); // Start the scaling animation
+    if (!cytodoroDone) {
+      Navigator.pushNamed(context, '/pie_chartscreen');
+      cytodoroDone = true;
+      UserSimplePreferences.setCytodoroDone(cytodoroDone);
+    } else {
+      if (!UserSimplePreferences.getHasDivideCellButtonBeenUsed()) {
+        setState(() {
+          hasDivideCellButtonBeenUsed = true;
+          UserSimplePreferences.setHasDivideCellButtonBeenUsed(hasDivideCellButtonBeenUsed);
+          cellCount++;
+          UserSimplePreferences.setCellNumber(cellCount);
+        });
+        _playButtonClickSound();
+        _animationController.reset();
+        _animationController.forward();
+      }
     }
   }
 
-  // Function to start the game
   void startGame() {
     setState(() {
-      cellCount = 1; // Reset cell count to 1
-      UserSimplePreferences.setCellNumber(cellCount); // Save the updated cell count
+      cellCount = 1;
+      UserSimplePreferences.setCellNumber(cellCount);
     });
-    _playButtonClickSound(); // Play sound effect
+    _playButtonClickSound();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HOME SCREEN'),
+        title: const Text('MY PETRI DISH'),
         backgroundColor: Colors.yellowAccent,
       ),
       body: Stack(
@@ -119,27 +122,34 @@ class _ThirdScreenState extends State<ThirdScreen>
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min, // Added line
               children: <Widget>[
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: List.generate(cellCount, (index) {
-                    return AnimatedBuilder(
-                      animation: _scaleAnimation,
-                      builder: (context, child) {
-                        return Transform.scale(
-                          scale: (index == cellCount - 1 && isGameCompleted)
-                              ? _scaleAnimation.value
-                              : 1.0, // Scale only the latest cell during animation
-                          child: Lottie.asset(
-                            'assets/amoeba_wiggle.json',
-                            width: 100,
-                            height: 100,
-                          ),
+                SizedBox(
+                  height: 400,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      // Wrap List.generate in a Column
+                      mainAxisSize:
+                          MainAxisSize.min, // Important for shrink-wrapping
+                      children: List.generate(cellCount, (index) {
+                        return AnimatedBuilder(
+                          animation: _scaleAnimation,
+                          builder: (context, child) {
+                            return Transform.scale(
+                              scale: (index == cellCount - 1 && isGameCompleted)
+                                  ? _scaleAnimation.value
+                                  : 1.0,
+                              child: Lottie.asset(
+                                'assets/amoeba_wiggle.json',
+                                width: 100,
+                                height: 100,
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }),
+                      }),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 if (cellCount == 0)
@@ -164,19 +174,20 @@ class _ThirdScreenState extends State<ThirdScreen>
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: hasDivideCellButtonBeenUsed
-                          ? Colors.grey // Disabled state
-                          : Colors.green, // Active state
+                          ? Colors.grey
+                          : Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
                     ),
                     onPressed: hasDivideCellButtonBeenUsed
                         ? null
                         : () {
-                      _playButtonClickSound(); // Play sound when button is clicked
-                      divideCell();
-                    },
+                            _playButtonClickSound();
+                            divideCell();
+                          },
                     child: const Text(
                       'DIVIDE CELL',
                       style: TextStyle(fontSize: 18, color: Colors.black),
@@ -193,13 +204,16 @@ class _ThirdScreenState extends State<ThirdScreen>
                           horizontal: 40, vertical: 15),
                     ),
                     onPressed: () {
-                      _playButtonClickSound(); // Play sound when button is clicked
-                      Future.delayed(Duration(milliseconds: 800), () {
-                        // Delay for 2 seconds
-                        // ignore: use_build_context_synchronously
-                        Navigator.pushNamed(context, '/pie_chartscreen');
-                      });
-                      print("Continue Session button pressed (not yet connected)");
+                      if (!hasDivideCellButtonBeenUsed) {
+                        null;
+                      } else {
+                        _playButtonClickSound();
+                        Future.delayed(Duration(milliseconds: 800), () {
+                          Navigator.pushNamed(context, '/pie_chartscreen');
+                        });
+                        print(
+                            "Continue Session button pressed (not yet connected)");
+                      }
                     },
                     child: const Text(
                       'CONTINUE SESSION',
@@ -211,25 +225,49 @@ class _ThirdScreenState extends State<ThirdScreen>
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: hasDivideCellButtonBeenUsed
-                          ? Colors.grey // Disabled state
-                          : Colors.green, // Active state
+                          ? Colors.grey
+                          : Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
                     ),
                     onPressed: hasDivideCellButtonBeenUsed
                         ? null
                         : () {
-                      _playButtonClickSound(); // Play sound when button is clicked
-                      divideCell();
-                    },
+                            _playButtonClickSound();
+                            divideCell();
+                          },
                     child: const Text(
                       'DIVIDE CELL',
                       style: TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
-                Container(margin: EdgeInsets.all(16), child: Text('Did you know? \n${myTrivia.triviaStatements[random.nextInt(9)]}', textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: Color.fromRGBO(0, 0, 0, 0.8), fontWeight: FontWeight.w400), softWrap: true, maxLines: 5,)) // Modify number of trivia statements
+                Container(
+                    margin: EdgeInsets.all(16),
+                    child: Text(
+                      'DID YOU KNOW? \n${myTrivia.triviaStatements[random.nextInt(9)]}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 15,
+                          color:  Color(0xfffe8f00),
+                          fontWeight: FontWeight.bold, 
+                          fontStyle: FontStyle.italic),
+                      softWrap: true,
+                      maxLines: 5,
+                    )),
+                // TextButton(
+                //   onPressed: () {
+                //     Future.delayed(Duration(milliseconds: 800), () {
+                //       Navigator.pushNamed(context, '/stats_page');
+                //     });
+                //   },
+                //   child: Text(
+                //     "Go to Stats Page",
+                //     style: TextStyle(color: Colors.green, fontSize: 10),
+                //   ),
+                // )
               ],
             ),
           ),
@@ -238,7 +276,9 @@ class _ThirdScreenState extends State<ThirdScreen>
             right: 20,
             child: GestureDetector(
               onDoubleTap: () {
-                Navigator.pushNamed(context, '/stats_page');
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushNamed(context, '/stats_page');
+                });
               },
               child: Container(
                 padding: const EdgeInsets.all(8),
@@ -264,87 +304,3 @@ class _ThirdScreenState extends State<ThirdScreen>
     );
   }
 }
-
-// import 'package:connections/8_user_simple_preferences.dart';
-// import 'package:flutter/material.dart';
-// import 'package:lottie/lottie.dart';
-
-
-// class ThirdScreen extends StatelessWidget {
-//   final int cellCount = 0; // Default cell count
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('HOME SCREEN'),
-//         backgroundColor: Colors.yellowAccent,
-//       ),
-//       body: Stack(
-//         children: <Widget>[
-//           Image.asset(
-//             'assets/homescreen_bg.png',
-//             fit: BoxFit.cover,
-//             width: double.infinity,
-//             height: double.infinity,
-//           ),
-//           Container(
-//             color: Colors.yellow.withOpacity(0.5), // Optional overlay for better contrast
-//             child: Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: <Widget>[
-//                   Lottie.asset('assets/amoeba_wiggle.json', width: 250, height: 250),
-//                   SizedBox(height: 20),
-//                   ElevatedButton(
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: Colors.green,
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(20),
-//                       ),
-//                       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-//                     ),
-//                     onPressed: () {
-//                       Navigator.pushNamed(context, '/pie_chartscreen');
-//                     },
-//                     child: Text(
-//                       'BEGIN',
-//                       style: TextStyle(fontSize: 18, color: Colors.black),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Positioned(
-//             top: 20,
-//             right: 20,
-//             child: GestureDetector(
-//               onDoubleTap: () {Navigator.pushNamed(context, '/stats_page');},
-//               child: Container(
-//                 padding: EdgeInsets.all(8),
-//                 decoration: BoxDecoration(
-//                   color: Colors.green,
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//                 child: Column(
-//                   children: [
-//                     Text(
-//                       'Cell Count: $cellCount',
-//                       style: TextStyle(fontSize: 18, color: Colors.black),
-//                     ),
-//                     Text(
-//                       'Total Score: ${UserSimplePreferences.getTotalScore()}',
-//                       style: TextStyle(fontSize: 18, color: Colors.black),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

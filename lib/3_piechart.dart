@@ -17,7 +17,7 @@ class MyPieChartScreen extends StatefulWidget {
 
 class _MyPieChartScreenState extends State<MyPieChartScreen> {
   bool cellDivideButtonShow = false;
-  int cellSize = 30;
+  int cellSize = 20;
   String progressMsg = "Start the Cell Life Cycle...";
   int overallScore = 0;
   int pieIndex = 0;
@@ -73,7 +73,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
             color: Colors.yellow.withOpacity(0.5),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     SizedBox(height: 10),
@@ -98,7 +98,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                     Expanded(
                       flex: 2,
                       child: SizedBox(
-                        width: 600,
+                        width: 630,
                         height: 470,
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
@@ -119,7 +119,7 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                                           UserSimplePreferences.setPieIndex(1);
                                           _playButtonClickSound();
                                           Navigator.pushNamed(context, '/pomodoro_timer');
-                                          cellSize = 150;
+                                          cellSize = 100;
                                           break;
                                         case 2:
                                           UserSimplePreferences.setPieIndex(2);
@@ -131,11 +131,12 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                                           UserSimplePreferences.setPieIndex(3);
                                           _playButtonClickSound();
                                           Navigator.pushNamed(context, '/pomodoro_timer');
-                                          cellSize = 200;
+                                          cellSize = 150;
                                           break;
                                         case 4:
+                                        UserSimplePreferences.setPieIndex(4);
                                           _playButtonClickSound();
-                                          final result = await Navigator.pushNamed(context, '/mitosis_quizscreen');
+                                          final result = await Navigator.pushNamed(context, 'quiz_loadingscreen');
 
                                           if (result != null &&
                                               result is Map<String, dynamic> &&
@@ -155,8 +156,8 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                         ),
                       ),
                     ),
-
-                    cellDivideButtonShow
+                    SizedBox(height: 10),
+                    UserSimplePreferences.getPieIndex() == 4
                         ? ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
@@ -171,15 +172,19 @@ class _MyPieChartScreenState extends State<MyPieChartScreen> {
                         Navigator.pushNamed(context, '/thirdscreen');
                         totalCytodoroSessions = totalCytodoroSessions + 1;
                         UserSimplePreferences.setCytodoroSessions(totalCytodoroSessions);
+                        UserSimplePreferences.setHasDivideCellButtonBeenUsed(false);
+                        UserSimplePreferences.setPieIndex(0);
+                        // canMultiply = true; 
+                        // UserSimplePreferences.setMultiply(canMultiply);
                       },
-                      child: Text('Go back to cell page', style: TextStyle(fontSize: 18, color: Colors.white)),
+                      child: Text('Go back to petri dish', style: TextStyle(fontSize: 18, color: Colors.white)),
                     )
                         : Container(
                       margin: EdgeInsets.all(8),
                       constraints: BoxConstraints(minHeight: 100),
                       child: Text(
                         progressMsg,
-                        style: TextStyle(fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.8), fontWeight: FontWeight.w400),
+                        style: TextStyle(fontSize: 18, color: Color.fromRGBO(0, 0, 0, 0.6), fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
                       ),
                     ),

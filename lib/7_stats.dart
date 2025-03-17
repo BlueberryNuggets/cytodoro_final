@@ -22,19 +22,24 @@ class _MyStatsPageState extends State<MyStatsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Game Statistics'),
       ),
       backgroundColor: Colors.yellowAccent,
       body: Column(
         children: [
+          SizedBox(height: 20),
           Container(
-            height: 100,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text('OVERALL SCORE: \n${UserSimplePreferences.getTotalScore()}', style: TextStyle(fontSize: 18, color: Colors.black), textAlign: TextAlign.center,),
+            child: Text(
+              'OVERALL SCORE: \n${UserSimplePreferences.getTotalScore()}',
+              style: TextStyle(fontSize: 18, color: Colors.black),
+              textAlign: TextAlign.center,
+            ),
           ),
           FutureBuilder(
             future: _prefsInit,
@@ -42,15 +47,15 @@ class _MyStatsPageState extends State<MyStatsPage> {
               if (snapshot.connectionState == ConnectionState.done) {
                 // SharedPreferences is initialized, build the chart
                 final List<Statistic> statistics = [
-                  Statistic('Pomodoro Session Completed',
+                  Statistic('Pomodoro \nSession Completed', 
                       UserSimplePreferences.getTotalPomodoroSessions()),
-                  Statistic('Cells Formed',
-                      UserSimplePreferences.getCytodoroSessions()),
-                  Statistic('Quiz Accuracy Rate',
+                  Statistic('Total Cells Formed',
+                      UserSimplePreferences.getCellNumber()),
+                  Statistic('Perfect Quiz Scores',
                       UserSimplePreferences.getQuizAccuracy()),
-                  Statistic('DNA Replication Accuracy Rate',
+                  Statistic('Perfect \nDNA Replications',
                       UserSimplePreferences.getdnaAccuracy()),
-                  Statistic('Total Focus Time',
+                  Statistic('Total Focus Time \n(minutes)',
                       UserSimplePreferences.getTotalFocusTime()),
                 ];
 
@@ -69,23 +74,28 @@ class _MyStatsPageState extends State<MyStatsPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Expanded(
-                          child: SfCartesianChart(
-                            primaryXAxis: CategoryAxis(),
-                            series: <CartesianSeries>[
-                              BarSeries<Statistic, String>(
-                                dataSource: statistics,
-                                xValueMapper: (Statistic statistic, _) =>
-                                    statistic.category,
-                                yValueMapper: (Statistic statistic, _) =>
-                                    statistic.value,
-                                color: Colors.orange,
-                                 dataLabelSettings: DataLabelSettings(
-                                  isVisible: true, // Enable data labels
-                                  textStyle: TextStyle(fontSize: 12), // Customize label style
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SizedBox(
+                            // Wrapped in SizedBox
+                            height: 300, // Set a fixed height here
+                            child: SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              series: <CartesianSeries>[
+                                BarSeries<Statistic, String>(
+                                  dataSource: statistics,
+                                  xValueMapper: (Statistic statistic, _) =>
+                                      statistic.category,
+                                  yValueMapper: (Statistic statistic, _) =>
+                                      statistic.value,
+                                  color: Colors.orange,
+                                  dataLabelSettings: DataLabelSettings(
+                                    isVisible: true,
+                                    textStyle: TextStyle(fontSize: 12),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(height: 20),
@@ -95,7 +105,8 @@ class _MyStatsPageState extends State<MyStatsPage> {
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green),
-                          child: Text('Home', style: TextStyle(color: Colors.white)),
+                          child: Text('Home',
+                              style: TextStyle(color: Colors.white)),
                         ),
                         SizedBox(height: 10),
                         ElevatedButton(
@@ -104,7 +115,8 @@ class _MyStatsPageState extends State<MyStatsPage> {
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green),
-                          child: Text('About', style: TextStyle(color: Colors.white)),
+                          child: Text('About',
+                              style: TextStyle(color: Colors.white)),
                         ),
                         SizedBox(height: 20),
                       ],

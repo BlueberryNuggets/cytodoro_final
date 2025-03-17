@@ -31,7 +31,7 @@ class StartScreen extends StatelessWidget {
                     //go back to pie chart
                     ? GestureDetector(
                         onTap: () {
-                          Navigator.pop(context, {'quizCompleted': true});
+                          Navigator.pushNamed(context, '/pie_chartscreen');
                         },
                         child: Image.asset('assets/backtocell_button2.png', height: 320),
                       )

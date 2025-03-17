@@ -38,8 +38,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
   int score = 0;
   int overallScore = 0;
   int accuracyRate = 0;
-  int rateAdd = UserSimplePreferences.getquizRateAdd();
-  int netAccuracyRate = UserSimplePreferences.getQuizAccuracy();
+  // int rateAdd = UserSimplePreferences.getquizRateAdd();
+  int netAccuracy = UserSimplePreferences.getQuizAccuracy();
   // int timePenalty = 0;
   // int timeElapsed = 0; // Add timeElapsed variable
 
@@ -127,33 +127,33 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 // Text('Time Penalty: $timePenalty'),
                 const SizedBox(height: 10),
                 Container(
-                  alignment: Alignment.center ,
+                    alignment: Alignment.center,
                     color: Color(0xfffff78b),
                     child: QuestionsSummary(summaryData)),
                 const SizedBox(
                   height: 20,
                 ),
                 TextButton(
-                    onPressed: () {
-                      widget.onRestart();
-                      UserSimplePreferences.setQuizScore(score);
-                      overallScore = UserSimplePreferences.getTotalScore() + UserSimplePreferences.getQuizScore();
-                      UserSimplePreferences.setTotalScore(overallScore);
-
-                      //UPDATING THE QUIZ ACCURACY RATE 
-                      accuracyRate = ((score/500)*100).round();
-                      rateAdd = rateAdd + accuracyRate; 
-                      UserSimplePreferences.setquizRateAdd(rateAdd); 
-
-                      netAccuracyRate = (rateAdd/(UserSimplePreferences.getTotalPomodoroSessions() + 1)).round();
-                      UserSimplePreferences.setQuizAccuracy(netAccuracyRate);
-                      },
-                    child: const Text(
+                  child: const Text(
                       'Finish Review',
                       style: TextStyle(
                         color: const Color(0xfffe8f00),
                       ),
-                    )),
+                    ),
+                  onPressed: () {
+                    widget.onRestart();
+                    UserSimplePreferences.setQuizScore(score);
+                    overallScore = UserSimplePreferences.getTotalScore() +
+                        UserSimplePreferences.getQuizScore();
+                    UserSimplePreferences.setTotalScore(overallScore);
+
+                    //UPDATING THE QUIZ ACCURACY RATE
+                    if (score == 500) {
+                      netAccuracy = netAccuracy + 1;
+                      UserSimplePreferences.setQuizAccuracy(netAccuracy);
+                    }
+                  },
+                ),
               ],
             ),
           ),
