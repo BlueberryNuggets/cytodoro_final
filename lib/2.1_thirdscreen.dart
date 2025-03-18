@@ -100,6 +100,9 @@ class _ThirdScreenState extends State<ThirdScreen>
     setState(() {
       cellCount = 1;
       UserSimplePreferences.setCellNumber(cellCount);
+      hasDivideCellButtonBeenUsed = false; // Reset the flag
+      UserSimplePreferences.setHasDivideCellButtonBeenUsed(false); //Persist the reset.
+
     });
     _playButtonClickSound();
   }
