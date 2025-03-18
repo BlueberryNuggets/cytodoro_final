@@ -105,7 +105,7 @@ class UserSimplePreferences {
   }
 
   static int getCellNumber() {
-    return _preferences.getInt(_keycellNumber) ?? 0;
+    return _preferences.getInt(_keycellNumber) ?? 1;
   }
 
   static Future<void> setdnaAccuracy(int dnaAccuracy) async {

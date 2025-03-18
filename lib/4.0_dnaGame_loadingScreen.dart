@@ -344,7 +344,8 @@ class _DnaAnimationSequenceState extends State<DnaAnimationSequence>
               },
               child: Text(
                 "Skip to DNA Game",
-                style: TextStyle(color: Colors.white, fontSize: 10),
+                style: TextStyle(color: const Color.fromARGB(
+                                            255, 231, 153, 52), fontSize: 12),
               ),
             )
           ],
