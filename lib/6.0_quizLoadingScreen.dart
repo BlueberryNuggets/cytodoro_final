@@ -3,19 +3,6 @@ import 'package:lottie/lottie.dart';
 
 import 'package:assets_audio_player/assets_audio_player.dart'; // Import assets_audio_player.
 
-// void main() => runApp(AnimationApp());
-
-// class AnimationApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: IntroScreen(),
-//     );
-//   }
-// }
-
-// Intro Screen with wiggle animation.
 class QuizIntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -47,7 +34,11 @@ class QuizIntroScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Learn about Mitosis',
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'PressStart2P', // Apply custom font
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ],
@@ -94,7 +85,7 @@ class _AnimationScreenState extends State<AnimationScreen> {
   int currentIndex = 0;
 
   final assetsAudioPlayer =
-      AssetsAudioPlayer(); // Create audio player instance.
+  AssetsAudioPlayer(); // Create audio player instance.
 
   void _nextAnimation() {
     // Play the tap sound when button is clicked.
@@ -114,7 +105,12 @@ class _AnimationScreenState extends State<AnimationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('IPMATC'),
+        title: Text(
+          'IPMATC',
+          style: TextStyle(
+            fontFamily: 'PressStart2P', // Apply custom font
+          ),
+        ),
         backgroundColor: Color(0xfffec23f),
       ),
       body: Container(
@@ -140,7 +136,11 @@ class _AnimationScreenState extends State<AnimationScreen> {
                   ),
                   child: Text(
                     stageNames[currentIndex],
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -149,29 +149,38 @@ class _AnimationScreenState extends State<AnimationScreen> {
                   child: Text(
                     descriptions[currentIndex],
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
                 currentIndex == 5
                     ? ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 40, vertical: 15),
-                        ),
-                        onPressed: () {
-                          _nextAnimation();
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
+                  ),
+                  onPressed: () {
+                    _nextAnimation();
 
-                          Navigator.pushNamed(context, '/mitosis_quizscreen');
-                        },
-                        child: Text('Play Mitosis Game',
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.white)),
-                      )
+                    Navigator.pushNamed(context, '/mitosis_quizscreen');
+                  },
+                  child: Text(
+                    'Play Mitosis Game',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                      color: Colors.white,
+                    ),
+                  ),
+                )
                     : Container(constraints: BoxConstraints(minHeight: 100)),
                 SizedBox(height: 15),
                 TextButton(
@@ -182,7 +191,11 @@ class _AnimationScreenState extends State<AnimationScreen> {
                   },
                   child: Text(
                     "Skip to Mitosis Game",
-                    style: TextStyle(color: Colors.white, fontSize: 10),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                    ),
                   ),
                 )
               ],

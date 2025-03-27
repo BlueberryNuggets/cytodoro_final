@@ -7,21 +7,32 @@ class MyHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Home Screen'),
-          backgroundColor: Colors.deepPurple[400],
+      appBar: AppBar(
+        title: Text(
+          'Home Screen',
+          style: TextStyle(
+            fontFamily: 'PressStart2P', // Apply custom font
+          ),
         ),
-        body: ElevatedButton(
-          onPressed: () {
-            // Play audio when button is pressed
-            assetsAudioPlayer.open(
-              Audio("assets/tap.mp3"),
-            );
+        backgroundColor: Colors.deepPurple[400],
+      ),
+      body: ElevatedButton(
+        onPressed: () {
+          // Play audio when button is pressed
+          assetsAudioPlayer.open(
+            Audio("assets/tap.mp3"),
+          );
 
-            //navigate to piechart screen
-            Navigator.pushNamed(context, '/pie_chartscreen');
-          },
-          child: Text("See the cell's life"),
-        ));
+          // Navigate to piechart screen
+          Navigator.pushNamed(context, '/pie_chartscreen');
+        },
+        child: Text(
+          "See the cell's life",
+          style: TextStyle(
+            fontFamily: 'PressStart2P', // Apply custom font
+          ),
+        ),
+      ),
+    );
   }
 }

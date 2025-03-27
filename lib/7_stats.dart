@@ -23,7 +23,12 @@ class _MyStatsPageState extends State<MyStatsPage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Game Statistics'),
+        title: Text(
+          'Game Statistics',
+          style: TextStyle(
+            fontFamily: 'PressStart2P',
+          ),
+        ),
       ),
       body: Container(
         // Replace the yellow background with an image
@@ -39,12 +44,16 @@ class _MyStatsPageState extends State<MyStatsPage> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.8), // Add transparency for better contrast
+                color: Colors.green.withOpacity(0.8),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
                 'OVERALL SCORE: \n${UserSimplePreferences.getTotalScore()}',
-                style: TextStyle(fontSize: 18, color: Colors.black),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontFamily: 'PressStart2P', // Apply custom font
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -54,20 +63,30 @@ class _MyStatsPageState extends State<MyStatsPage> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   // SharedPreferences is initialized, build the chart
                   final List<Statistic> statistics = [
-                    Statistic('Pomodoro \nSession Completed',
-                        UserSimplePreferences.getTotalPomodoroSessions()),
-                    Statistic('Total Cells Formed',
-                        UserSimplePreferences.getCellNumber()),
-                    Statistic('Perfect Quiz Scores',
-                        UserSimplePreferences.getQuizAccuracy()),
-                    Statistic('Perfect \nDNA Replications',
-                        UserSimplePreferences.getdnaAccuracy()),
-                    Statistic('Total Focus Time \n(minutes)',
-                        UserSimplePreferences.getTotalFocusTime()),
+                    Statistic(
+                      'Pomodoro \nSession Completed',
+                      UserSimplePreferences.getTotalPomodoroSessions(),
+                    ),
+                    Statistic(
+                      'Total Cells Formed',
+                      UserSimplePreferences.getCellNumber(),
+                    ),
+                    Statistic(
+                      'Perfect Quiz Scores',
+                      UserSimplePreferences.getQuizAccuracy(),
+                    ),
+                    Statistic(
+                      'Perfect \nDNA Replications',
+                      UserSimplePreferences.getdnaAccuracy(),
+                    ),
+                    Statistic(
+                      'Total Focus Time \n(minutes)',
+                      UserSimplePreferences.getTotalFocusTime(),
+                    ),
                   ];
 
                   return Container(
-                    color: Colors.transparent, // Maintain transparent background for image
+                    color: Colors.transparent,
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -79,6 +98,7 @@ class _MyStatsPageState extends State<MyStatsPage> {
                               fontSize: 24,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
+                              fontFamily: 'PressStart2P',
                             ),
                           ),
                           Padding(
@@ -97,7 +117,10 @@ class _MyStatsPageState extends State<MyStatsPage> {
                                     color: Colors.orange,
                                     dataLabelSettings: DataLabelSettings(
                                       isVisible: true,
-                                      textStyle: TextStyle(fontSize: 12),
+                                      textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'PressStart2P',
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -110,9 +133,15 @@ class _MyStatsPageState extends State<MyStatsPage> {
                               Navigator.pushNamed(context, '/thirdscreen');
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green),
-                            child: Text('Home',
-                                style: TextStyle(color: Colors.white)),
+                              backgroundColor: Colors.green,
+                            ),
+                            child: Text(
+                              'Home',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'PressStart2P',
+                              ),
+                            ),
                           ),
                           SizedBox(height: 10),
                           ElevatedButton(
@@ -120,9 +149,15 @@ class _MyStatsPageState extends State<MyStatsPage> {
                               Navigator.pushNamed(context, '/gamescreen');
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green),
-                            child: Text('About',
-                                style: TextStyle(color: Colors.white)),
+                              backgroundColor: Colors.green,
+                            ),
+                            child: Text(
+                              'About',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'PressStart2P',
+                              ),
+                            ),
                           ),
                           SizedBox(height: 20),
                         ],

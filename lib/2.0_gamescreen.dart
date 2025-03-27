@@ -8,7 +8,12 @@ class GameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('WELCOME TO CYTODORO'),
+        title: Text(
+          'WELCOME TO CYTODORO',
+          style: TextStyle(
+            fontFamily: 'PressStart2P',
+          ),
+        ),
         backgroundColor: Colors.yellowAccent,
       ),
       body: Stack(
@@ -20,7 +25,7 @@ class GameScreen extends StatelessWidget {
             height: double.infinity,
           ),
           Container(
-            color: Colors.yellow.withOpacity(0.5), // Optional overlay for better contrast
+            color: Colors.yellow.withOpacity(0.5),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -28,7 +33,12 @@ class GameScreen extends StatelessWidget {
                   Text(
                     'WELCOME TO CYTODORO',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36, color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontFamily: 'PressStart2P',
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(height: 20),
                   Padding(
@@ -36,7 +46,11 @@ class GameScreen extends StatelessWidget {
                     child: Text(
                       'CYTODORO is a mobile app that combines the excitement of gamified learning with the productivity-boosting Pomodoro technique. Dive into the cell life cycle through interactive games while managing your study time effectively with customizable timers. Make learning biology fun and efficient!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontFamily: 'PressStart2P',
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -56,7 +70,11 @@ class GameScreen extends StatelessWidget {
                     },
                     child: Text(
                       'NEXT',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P',
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ],

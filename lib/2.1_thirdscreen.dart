@@ -111,7 +111,12 @@ class _ThirdScreenState extends State<ThirdScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MY PETRI DISH'),
+        title: const Text(
+          'MY PETRI DISH',
+          style: TextStyle(
+            fontFamily: 'PressStart2P', // Apply custom font
+          ),
+        ),
         backgroundColor: Colors.yellowAccent,
       ),
       body: Stack(
@@ -125,15 +130,13 @@ class _ThirdScreenState extends State<ThirdScreen>
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min, // Added line
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SizedBox(
                   height: 400,
                   child: SingleChildScrollView(
                     child: Column(
-                      // Wrap List.generate in a Column
-                      mainAxisSize:
-                          MainAxisSize.min, // Important for shrink-wrapping
+                      mainAxisSize: MainAxisSize.min,
                       children: List.generate(cellCount, (index) {
                         return AnimatedBuilder(
                           animation: _scaleAnimation,
@@ -170,7 +173,11 @@ class _ThirdScreenState extends State<ThirdScreen>
                     },
                     child: const Text(
                       'START',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P', // Apply custom font
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 if (cellCount > 1) ...[
@@ -188,12 +195,16 @@ class _ThirdScreenState extends State<ThirdScreen>
                     onPressed: hasDivideCellButtonBeenUsed
                         ? null
                         : () {
-                            _playButtonClickSound();
-                            divideCell();
-                          },
+                      _playButtonClickSound();
+                      divideCell();
+                    },
                     child: const Text(
                       'DIVIDE CELL',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P', // Apply custom font
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -220,7 +231,11 @@ class _ThirdScreenState extends State<ThirdScreen>
                     },
                     child: const Text(
                       'CONTINUE SESSION',
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P', // Apply custom font
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -239,38 +254,34 @@ class _ThirdScreenState extends State<ThirdScreen>
                     onPressed: hasDivideCellButtonBeenUsed
                         ? null
                         : () {
-                            _playButtonClickSound();
-                            divideCell();
-                          },
+                      _playButtonClickSound();
+                      divideCell();
+                    },
                     child: const Text(
                       'DIVIDE CELL',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P', // Apply custom font
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 Container(
-                    margin: EdgeInsets.all(16),
-                    child: Text(
-                      'DID YOU KNOW? \n${myTrivia.triviaStatements[random.nextInt(9)]}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 15,
-                          color:  Color(0xfffe8f00),
-                          fontWeight: FontWeight.bold, 
-                          fontStyle: FontStyle.italic),
-                      softWrap: true,
-                      maxLines: 5,
-                    )),
-                // TextButton(
-                //   onPressed: () {
-                //     Future.delayed(Duration(milliseconds: 800), () {
-                //       Navigator.pushNamed(context, '/stats_page');
-                //     });
-                //   },
-                //   child: Text(
-                //     "Go to Stats Page",
-                //     style: TextStyle(color: Colors.green, fontSize: 10),
-                //   ),
-                // )
+                  margin: EdgeInsets.all(16),
+                  child: Text(
+                    'DID YOU KNOW? \n${myTrivia.triviaStatements[random.nextInt(9)]}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                      color: Color(0xfffe8f00),
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    softWrap: true,
+                    maxLines: 5,
+                  ),
+                ),
               ],
             ),
           ),
@@ -289,16 +300,26 @@ class _ThirdScreenState extends State<ThirdScreen>
                   color: Colors.green,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Column(children: [
-                  Text(
-                    'Cell Count: ${UserSimplePreferences.getCellNumber()}',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                  Text(
-                    'Total Score: ${UserSimplePreferences.getTotalScore()}',
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                  ),
-                ]),
+                child: Column(
+                  children: [
+                    Text(
+                      'Cell Count: ${UserSimplePreferences.getCellNumber()}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P', // Apply custom font
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      'Total Score: ${UserSimplePreferences.getTotalScore()}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PressStart2P', // Apply custom font
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

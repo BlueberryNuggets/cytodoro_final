@@ -165,7 +165,7 @@ class _DnaAnimationSequenceState extends State<DnaAnimationSequence>
                         children: <TextSpan>[
                           TextSpan(
                               text:
-                                  'DNA Replication start with the unwinding of the helix-shaped DNA. This is done by the '),
+                              'DNA Replication start with the unwinding of the helix-shaped DNA. This is done by the '),
                           TextSpan(
                             text: 'Helicase',
                             style: TextStyle(
@@ -327,7 +327,7 @@ class _DnaAnimationSequenceState extends State<DnaAnimationSequence>
                     borderRadius: BorderRadius.circular(20),
                   ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/dna_gamescreen');
@@ -345,7 +345,7 @@ class _DnaAnimationSequenceState extends State<DnaAnimationSequence>
               child: Text(
                 "Skip to DNA Game",
                 style: TextStyle(color: const Color.fromARGB(
-                                            255, 231, 153, 52), fontSize: 12),
+                    255, 231, 153, 52), fontSize: 12),
               ),
             )
           ],
