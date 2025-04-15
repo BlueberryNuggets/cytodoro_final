@@ -13,7 +13,7 @@ class PomodoroTimer extends StatefulWidget {
 
 class _PomodoroTimerState extends State<PomodoroTimer>
     with SingleTickerProviderStateMixin {
-  static const int workTime = 5; // 10 seconds
+  static const int workTime = 1500; // 1500 seconds = 25 mins
   static const int breakTime = 0; // 0 seconds
   int remainingTime = workTime;
   bool isRunning = false;
@@ -26,23 +26,24 @@ class _PomodoroTimerState extends State<PomodoroTimer>
   int overallScore = UserSimplePreferences.getTotalScore();
   int total_focus_sessions = UserSimplePreferences.getTotalPomodoroSessions();
   int total_focus_time = UserSimplePreferences.getTotalFocusTime();
-  final AssetsAudioPlayer _audioPlayer = AssetsAudioPlayer(); // Initialize audio player
+  final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(seconds: workTime));
+    _controller =
+        AnimationController(vsync: this, duration: Duration(seconds: workTime));
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _audioPlayer.dispose(); // Dispose of audio player
+    _assetsAudioPlayer.dispose(); // Dispose of audio player
     super.dispose();
   }
 
   void playSound() {
-    _audioPlayer.open(
+    _assetsAudioPlayer.open(
       Audio('assets/tap.mp3'),
       autoStart: true,
     );
@@ -66,6 +67,11 @@ class _PomodoroTimerState extends State<PomodoroTimer>
           timer.cancel();
           _controller.stop();
           _controller.value = 1.0; // Finish the animation
+          //Play the times up sound effect
+          _assetsAudioPlayer.open(
+            Audio('assets/timesup.mp3'),
+          );
+
           //FOCUS SESSION & TIME COUNT
           total_focus_sessions = total_focus_sessions + 1;
           UserSimplePreferences.setTotalPomodoroSessions(total_focus_sessions);
@@ -91,7 +97,11 @@ class _PomodoroTimerState extends State<PomodoroTimer>
           print(score);
 
           Future.delayed(Duration(milliseconds: 200), () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => NextPage(final_pomodoro_score: final_pomodoro_score)),
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      NextPage(final_pomodoro_score: final_pomodoro_score)),
             ); //NEXT PAGE IS WITHIN THE SAME FILE!
           });
         }
@@ -123,7 +133,16 @@ class _PomodoroTimerState extends State<PomodoroTimer>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Pomodoro Timer'),
+        title: Text(
+          'Pomodoro Timer',
+          style: TextStyle(
+            fontSize: 15,
+            fontFamily: 'PressStart2P',
+            color:  const Color.fromARGB(255, 255, 119, 0),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Color(0xffffda55),
       ),
       body: Stack(
         children: <Widget>[
@@ -149,15 +168,23 @@ class _PomodoroTimerState extends State<PomodoroTimer>
                     },
                   ), // Lottie animation
                   SizedBox(height: 20),
-                  Center(
-                    child: Text(
-                      isWorkTime ? 'Pomodoro Timer' : 'Time\'s Up!',
-                      style: TextStyle(fontSize: 32),
+                  Text(
+                    isWorkTime ? 'Pomodoro \nTimer' : 'Time\'s Up!',
+                    style: TextStyle(
+                      color: const Color.fromARGB(255, 255, 119, 0),
+                      fontSize: 28,
+                      fontFamily: 'PressStart2P',
                     ),
+                    textAlign: TextAlign.center,
                   ),
+                  SizedBox(height: 5),
                   Text(
                     '${(remainingTime ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}',
-                    style: TextStyle(fontSize: 48),
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 48,
+                      fontFamily: 'PressStart2P', // Custom font applied
+                    ),
                   ),
                   SizedBox(height: 20),
                   Row(
@@ -168,10 +195,15 @@ class _PomodoroTimerState extends State<PomodoroTimer>
                           stopTimer();
                           playSound(); // Play sound effect
                         },
-                        child: Text('Stop'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange, // Background color
                           foregroundColor: Colors.white, // Text color
+                        ),
+                        child: Text(
+                          'Stop',
+                          style: TextStyle(
+                            fontFamily: 'PressStart2P', // Custom font applied
+                          ),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -180,10 +212,15 @@ class _PomodoroTimerState extends State<PomodoroTimer>
                           startTimer();
                           playSound(); // Play sound effect
                         },
-                        child: Text('Start'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green, // Background color
                           foregroundColor: Colors.white, // Text color
+                        ),
+                        child: Text(
+                          'Start',
+                          style: TextStyle(
+                            fontFamily: 'PressStart2P', // Custom font applied
+                          ),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -192,10 +229,15 @@ class _PomodoroTimerState extends State<PomodoroTimer>
                           resetTimer();
                           playSound(); // Play sound effect
                         },
-                        child: Text('Reset'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange, // Background color
                           foregroundColor: Colors.white, // Text color
+                        ),
+                        child: Text(
+                          'Reset',
+                          style: TextStyle(
+                            fontFamily: 'PressStart2P', // Custom font applied
+                          ),
                         ),
                       ),
                     ],
@@ -219,7 +261,14 @@ class NextPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Time\'s Up!'),
+        title: Text(
+          'Time\'s Up!',
+          style: TextStyle(
+            fontSize: 18,
+            color: const Color.fromARGB(255, 255, 119, 0),
+            fontFamily: 'PressStart2P', // Custom font applied
+          ),
+        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -245,10 +294,15 @@ class NextPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Center(
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
                     child: Text(
                       'Time\'s Up! \nYou gain $final_pomodoro_score points!',
-                      style: TextStyle(fontSize: 28),
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 255, 119, 0),
+                        fontSize: 23,
+                        fontFamily: 'PressStart2P', // Custom font applied
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -257,10 +311,15 @@ class NextPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/pie_chartscreen');
                     },
-                    child: Text('Continue'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green, // Background color
                       foregroundColor: Colors.white, // Text color
+                    ),
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                        fontFamily: 'PressStart2P', // Custom font applied
+                      ),
                     ),
                   ),
                 ],
@@ -272,150 +331,3 @@ class NextPage extends StatelessWidget {
     );
   }
 }
-
-
-// class MyPomodoroTimer extends StatefulWidget {
-//   const MyPomodoroTimer({super.key});
-
-//   @override
-//   _MyPomodoroTimerState createState() => _MyPomodoroTimerState();
-// }
-
-// class _MyPomodoroTimerState extends State<MyPomodoroTimer> {
-//   int _totalSeconds = 1 * 1; // Store total seconds
-//   Timer? _timer;
-//   var f = NumberFormat("00");
-//   bool _isRunning = false;
-//   bool _backButtonInvisible = true;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//   }
-
-//   @override
-//   void dispose() {
-//     _timer?.cancel();
-//     super.dispose();
-//   }
-
-//   void _stopTimer() {
-//     _timer?.cancel();
-//     _isRunning = false;
-//   }
-
-//   void _resetTimer() {
-//     _stopTimer();
-//     _totalSeconds = 1 * 1; // Reset total seconds
-//     setState(() {});
-//   }
-
-//   void _startTimer() {
-//     if (_isRunning) return;
-
-//     _isRunning = true;
-
-//     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-//       setState(() {
-//         if (_totalSeconds > 0) {
-//           _totalSeconds--;
-//         } else {
-//           _timer?.cancel();
-//           _isRunning = false;
-//           _backButtonInvisible = false;
-//           print("Timer Complete");
-//         }
-//       });
-//     });
-//   }
-
-//   int get _minutes => _totalSeconds ~/ 60;
-//   int get _seconds => _totalSeconds % 60;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.black,
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             Text(
-//               "${f.format(_minutes)}:${f.format(_seconds)}",
-//               style: TextStyle(
-//                 color: Colors.white,
-//                 fontSize: 48,
-//               ),
-//             ),
-//             SizedBox(height: 100),
-//             _backButtonInvisible
-//                 ? const Text(' ')
-//                 : ElevatedButton(
-//                     onPressed: () {
-//                       setState(() {
-//                         _backButtonInvisible = true;
-//                         Navigator.pushNamed(context, '/pie_chartscreen');
-//                       });
-//                     },
-//                     child: const Text('Finish the Pomodoro Session!'), // Changed to const for optimization
-//                   ),//Reset Button
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//               children: <Widget>[
-//                   ElevatedButton(
-//                   onPressed: _resetTimer,
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor: Colors.black,
-//                     shape: CircleBorder(),
-//                     padding: EdgeInsets.all(40),
-//                     side: BorderSide(color: Colors.orange),
-//                   ),
-//                   child: Text(
-//                     "Reset",
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 24,
-//                     ),
-//                   ),
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: _isRunning ? null : _startTimer,
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor:
-//                         _isRunning ? Colors.grey : Colors.orange[300],
-//                     shape: CircleBorder(),
-//                     padding: EdgeInsets.all(40),
-//                   ),
-//                   child: Text(
-//                     "Start",
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 24,
-//                     ),
-//                   ),
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: _isRunning ? _stopTimer : null,
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor:
-//                         _isRunning ? Colors.orange[300] : Colors.grey,
-//                     shape: CircleBorder(),
-//                     padding: EdgeInsets.all(40),
-//                   ),
-//                   child: Text(
-//                     "Stop",
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 24,
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             Lottie.asset('assets/amoeba_growing.json'),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

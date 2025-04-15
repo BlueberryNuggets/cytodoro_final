@@ -8,8 +8,16 @@ class GameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('WELCOME TO CYTODORO'),
-        backgroundColor: Colors.yellowAccent,
+        title: Text(
+           'WELCOME TO CYTODORO',
+           style: TextStyle(
+            fontSize: 15,
+            fontFamily: 'PressStart2P',
+            color:  const Color.fromARGB(255, 255, 119, 0),
+            fontWeight: FontWeight.bold,
+           ),
+         ),
+        backgroundColor:  Color(0xffffda55),
       ),
       body: Stack(
         children: <Widget>[
@@ -20,23 +28,33 @@ class GameScreen extends StatelessWidget {
             height: double.infinity,
           ),
           Container(
-            color: Colors.yellow.withOpacity(0.5), // Optional overlay for better contrast
+            color: Colors.yellow
+                .withOpacity(0.5), // Optional overlay for better contrast
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'WELCOME TO CYTODORO',
+                    'WELCOME TO \nCYTODORO',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36, color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                       fontSize: 25,
+                       fontFamily: 'PressStart2P',
+                       color: const Color.fromARGB(255, 255, 119, 0),
+                       fontWeight: FontWeight.bold,
+                     ),
                   ),
-                  SizedBox(height: 20),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                     child: Text(
                       'CYTODORO is a mobile app that combines the excitement of gamified learning with the productivity-boosting Pomodoro technique. Dive into the cell life cycle through interactive games while managing your study time effectively with customizable timers. Make learning biology fun and efficient!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24, color: Colors.black),
+                      style: TextStyle(
+                         fontSize: 12,
+                         letterSpacing: 0,
+                         fontFamily: 'PressStart2P',
+                         color: const Color.fromARGB(255, 255, 119, 0),
+                       ),
                     ),
                   ),
                   SizedBox(height: 20),
@@ -46,7 +64,8 @@ class GameScreen extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     ),
                     onPressed: () {
                       assetsAudioPlayer.open(
@@ -56,7 +75,11 @@ class GameScreen extends StatelessWidget {
                     },
                     child: Text(
                       'NEXT',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      style: TextStyle(
+                         fontSize: 18,
+                         fontFamily: 'PressStart2P',
+                         color: const Color.fromARGB(255, 224, 255, 214),
+                       ),
                     ),
                   ),
                 ],
@@ -68,49 +91,3 @@ class GameScreen extends StatelessWidget {
     );
   }
 }
-
-// class GameScreen extends StatelessWidget {
-//   const GameScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('WELCOME TO CYTODORO'),
-//         backgroundColor: Colors.orangeAccent,
-//       ),
-//       body: Container(
-//         color: Colors.yellow,
-//         child: Center(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: <Widget>[
-//               Text(
-//                 'Welcome to Cytodoro, a cell life game integrated with Pomodoro',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(fontSize: 24, color: Colors.deepOrangeAccent),
-//               ),
-//               SizedBox(height: 20),
-//               ElevatedButton(
-//                 style: ElevatedButton.styleFrom(
-//                   backgroundColor: Colors.green,
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(20),
-//                   ),
-//                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-//                 ),
-//                 onPressed: () {
-//                   Navigator.pushNamed(context, '/thirdscreen');
-//                 },
-//                 child: Text(
-//                   'NEXT',
-//                   style: TextStyle(fontSize: 18, color: Colors.yellow),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

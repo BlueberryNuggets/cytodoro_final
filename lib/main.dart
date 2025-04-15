@@ -47,11 +47,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-    // ... your existing code ...
 
     @override
     void initState() {
-        UserSimplePreferences.clearPrefs();
+        //clear this for the ACTUAL APP
+        //UserSimplePreferences.clearPrefs();
+        UserSimplePreferences.setCytodoroDone(false);
         super.initState();
         WidgetsBinding.instance.addObserver(this);
     }

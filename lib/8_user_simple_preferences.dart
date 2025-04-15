@@ -193,4 +193,3 @@ class UserSimplePreferences {
     return _preferences.getBool(_keyPomodoro_now) ?? true;
   }
 }
-

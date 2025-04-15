@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
 import 'package:assets_audio_player/assets_audio_player.dart'; // Import assets_audio_player.
 
-// void main() => runApp(AnimationApp());
-
-// class AnimationApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: IntroScreen(),
-//     );
-//   }
-// }
-
 // Intro Screen with wiggle animation.
-class QuizIntroScreen extends StatelessWidget {
+class QuizIntroScreen extends StatefulWidget {
+  @override
+  State<QuizIntroScreen> createState() => _QuizIntroScreenState();
+}
+
+class _QuizIntroScreenState extends State<QuizIntroScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _preloadAnimations();
+  }
+
+  Future<void> _preloadAnimations() async {
+    await Lottie.asset('assets/amoeba_wiggle.json').onReady;
+  }
+
+  Future<void> precacheLottie(BuildContext context, String assetPath) async {
+    await precacheImage(
+      AssetImage(assetPath),
+      context,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +56,13 @@ class QuizIntroScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Learn about Mitosis',
-                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                    letterSpacing: -1,
+                    wordSpacing: -6,
+                    fontSize: 15,
+                    fontFamily: 'PressStart2P', // Apply custom font
+                    color: const Color.fromARGB(255, 224, 255, 214),
+                  ),
                 ),
               ),
             ],
@@ -56,6 +71,10 @@ class QuizIntroScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+extension on LottieBuilder {
+  get onReady => null;
 }
 
 class AnimationScreen extends StatefulWidget {
@@ -114,7 +133,12 @@ class _AnimationScreenState extends State<AnimationScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('IPMATC'),
+        title: Text(
+          'IPMATC',
+          style: TextStyle(
+            fontFamily: 'PressStart2P', // Apply custom font
+          ),
+        ),
         backgroundColor: Color(0xfffec23f),
       ),
       body: Container(
@@ -136,20 +160,33 @@ class _AnimationScreenState extends State<AnimationScreen> {
                 ElevatedButton(
                   onPressed: _nextAnimation,
                   style: ElevatedButton.styleFrom(
+                    elevation: 6,
                     backgroundColor: Colors.green,
                   ),
                   child: Text(
                     stageNames[currentIndex],
-                    style: TextStyle(fontSize: 18, color: Colors.black),
+                    style: TextStyle(
+                      letterSpacing: -1,
+                      wordSpacing: -6,
+                      fontSize: 15,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                      color: const Color.fromARGB(255, 224, 255, 214),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: Text(
                     descriptions[currentIndex],
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(
+                      letterSpacing: 0,
+                      wordSpacing: -6,
+                      fontSize: 12,
+                      fontFamily: 'PressStart2P', // Apply custom font
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -168,9 +205,16 @@ class _AnimationScreenState extends State<AnimationScreen> {
 
                           Navigator.pushNamed(context, '/mitosis_quizscreen');
                         },
-                        child: Text('Play Mitosis Game',
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.white)),
+                        child: Text(
+                          'Play Mitosis Game',
+                          style: TextStyle(
+                            letterSpacing: -1,
+                            wordSpacing: -6,
+                            fontSize: 15,
+                            fontFamily: 'PressStart2P', // Apply custom font
+                            color: const Color.fromARGB(255, 224, 255, 214),
+                          ),
+                        ),
                       )
                     : Container(constraints: BoxConstraints(minHeight: 100)),
                 SizedBox(height: 15),
@@ -182,7 +226,11 @@ class _AnimationScreenState extends State<AnimationScreen> {
                   },
                   child: Text(
                     "Skip to Mitosis Game",
-                    style: TextStyle(color: Colors.white, fontSize: 10),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      // fontFamily: 'PressStart2P', // Apply custom font
+                    ),
                   ),
                 )
               ],

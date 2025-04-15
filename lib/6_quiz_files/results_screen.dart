@@ -124,7 +124,6 @@ class _ResultsScreenState extends State<ResultsScreen> {
                   'Score: $score',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                // Text('Time Penalty: $timePenalty'),
                 const SizedBox(height: 10),
                 Container(
                     alignment: Alignment.center,
